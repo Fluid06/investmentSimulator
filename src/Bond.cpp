@@ -5,7 +5,6 @@
 #include <iomanip>
 #include <iostream>
 
-
 Bond::Bond(const std::string& name, const std::string& ticker, const double pricePerUnit, const double interestRate, const int expirationDay)
     : Instrument(name, ticker, pricePerUnit), nominalValue(pricePerUnit), interestRate(interestRate), expirationDay(expirationDay) {}
 
@@ -45,7 +44,7 @@ void Bond::simulateChangeInPrice()
     setPricePerUnit(newPrice);
 }
 
-double Bond::processDailyCashflow(const double vol) const
+double Bond::dailyAction(const double vol) const
 {
     Logger::payInterest(getName(), payInterest(vol));
     return payInterest(vol);

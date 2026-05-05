@@ -28,7 +28,7 @@ void Cryptocurrency::simulateChangeInPrice()
     setPricePerUnit(newPrice);
 }
 
-double Cryptocurrency::processDailyCashflow(const double vol) const
+double Cryptocurrency::dailyAction(const double vol) const
 {
     return 0 * vol;
 }

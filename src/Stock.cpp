@@ -1,11 +1,10 @@
 #include "Stock.hpp"
-
-#include <iostream>
-#include <iomanip>
-
 #include "Logger.hpp"
 #include "World.hpp"
 #include "Random.hpp"
+
+#include <iostream>
+#include <iomanip>
 
 Stock::Stock(const std::string& name, const std::string& ticker, const double pricePerUnit, const double dividendYield, const double volatility)
     : Instrument(name, ticker, pricePerUnit), dividendYield(dividendYield), volatility(volatility) {}
@@ -34,7 +33,7 @@ void Stock::simulateChangeInPrice()
     setPricePerUnit(newPrice);
 }
 
-double Stock::processDailyCashflow(const double vol) const
+double Stock::dailyAction(const double vol) const
 {
     if (dividendYield == 0.0) return 0;
 

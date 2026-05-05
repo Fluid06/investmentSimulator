@@ -1,8 +1,7 @@
 #include "Portfolio.hpp"
+#include "Logger.hpp"
 
 #include <iostream>
-
-#include "Logger.hpp"
 
 Portfolio::~Portfolio()
 {
@@ -48,7 +47,7 @@ double Portfolio::processDailyCashflow() const
 
     for (const Contract* contract : contracts)
     {
-        totalProfit += contract->getInstrument()->processDailyCashflow(contract->getVolume());
+        totalProfit += contract->getInstrument()->dailyAction(contract->getVolume());
     }
 
     std::cout << std::endl;

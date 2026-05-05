@@ -8,7 +8,7 @@
 Commodity::Commodity(const std::string& name, const std::string& ticker, const double pricePerUnit, const Type type, const double storageFee)
     : Instrument(name, ticker, pricePerUnit), type(type), storageFee(storageFee) {}
 
-const std::string Commodity::getType() const
+std::string Commodity::getType() const
 {
     switch (type)
     {
@@ -44,7 +44,7 @@ void Commodity::simulateChangeInPrice()
     setPricePerUnit(newPrice);
 }
 
-double Commodity::processDailyCashflow(const double vol) const
+double Commodity::dailyAction(const double vol) const
 {
     Logger::chargeStorageFee(getName(), chargeStorageFee(vol));
     return -chargeStorageFee(vol);

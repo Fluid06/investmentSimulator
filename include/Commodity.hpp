@@ -11,13 +11,13 @@ class Commodity : public Instrument
 public:
     Commodity(const std::string& name, const std::string& ticker, double pricePerUnit, Type type, double storageFee);
 
-    const std::string getType() const;
+    std::string getType() const;
     double getStorageFee() const;
     std::string getTypeName(bool full) const override;
     std::string getSaveFormat() const override;
 
     void simulateChangeInPrice() override;
-    double processDailyCashflow(double vol) const override;
+    double dailyAction(double vol) const override;
     void printDetails(std::ostream& os) const override;
     double chargeStorageFee(double vol) const;
 

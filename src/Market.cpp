@@ -1,9 +1,7 @@
 #include "Market.hpp"
-#include <fstream>
-#include <iostream>
-#include <sstream>
-
 #include "Logger.hpp"
+
+#include <iostream>
 
 Market::~Market()
 {
