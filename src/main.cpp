@@ -26,8 +26,8 @@ int main()
 
     if (choice == '1' && !SaveManager::loadSave(market, client, false))
     {
-        std::cout << "Nepodarilo se nacist save." << std::endl;
-        exit(1);
+        std::cout << "Nepodarilo se nacist save. Bude zalozena nova hra." << std::endl;
+        choice = '2';
     }
 
     if (choice == '2')
@@ -35,7 +35,7 @@ int main()
         if (!SaveManager::loadSave(market, client, true))
         {
             std::cout << "Nepodarilo se nacist novou hru." << std::endl;
-            exit(1);
+            return 1;
         }
 
         std::string name;
