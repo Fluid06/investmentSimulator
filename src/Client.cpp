@@ -82,15 +82,13 @@ void Client::sellInstrumentPrompt()
     std::cout << "Zadej ID kontraktu: " << std::endl;
     std::cin >> id;
 
-    id -= 1;
-
-    if (id <= 0 || static_cast<size_t>(id) > portfolio.getContracts().size())
+    if (id < 1 || static_cast<size_t>(id) > portfolio.getContracts().size())
     {
         std::cout << "Neplatne ID kontraktu." << std::endl;
         return;
     }
 
-    const double profit = portfolio.closeContract(id);
+    const double profit = portfolio.closeContract(id-1);
     balance += profit;
 
     Logger::closeContract(profit);
