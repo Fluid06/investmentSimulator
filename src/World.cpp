@@ -49,6 +49,4 @@ void World::updateEconomy()
 
         if (interestRate < 0.005) interestRate = 0.05;
     }
-
-    Logger::worldPrint(isCrisis, interestRate, globalInflation);
 }

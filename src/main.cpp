@@ -1,36 +1,96 @@
-#include <iostream>
-
 #include "SaveManager.hpp"
-#include "Client.hpp"
 #include "World.hpp"
 #include "Logger.hpp"
-#include "Market.hpp"
+
+#include <iostream>
+#include <iomanip>
 
 int main()
 {
-    Market* market = new Market();
-    Client* client = new Client();
+    Market market;
+    Client client;
 
-    if (!SaveManager::loadGame(*market, *client))
+    char choice = '\0';
+
+    std::cout <<
+        "1. Nacist ulozenou hru" << std::endl <<
+        "2. Nova hra" << std::endl <<
+        "q - Ukoncit" << std::endl;
+
+    std::cin >> choice;
+
+    if (choice == 'q')
     {
-        std::cout << "Ukoncovani programu." << std::endl;
+        return 0;
+    }
+
+    if (choice == '1' && !SaveManager::loadSave(market, client, false))
+    {
+        std::cout << "Nepodarilo se nacist save." << std::endl;
         exit(1);
     }
 
-    Logger::instrumentsTablePrint(market->getInstruments());
-    Logger::worldPrint(World::getIsCrisis(), World::getInterestRate(), World::getGlobalInflation());
-    Logger::contractsTablePrint(client->getPortfolio().getContracts());
+    if (choice == '2')
+    {
+        if (!SaveManager::loadSave(market, client, true))
+        {
+            std::cout << "Nepodarilo se nacist novou hru." << std::endl;
+            exit(1);
+        }
 
-    if (!SaveManager::saveGame(*market, *client))
+        std::string name;
+
+        std::cout << "Zadej sve jmeno: " << std::endl;
+        std::cin >> name;
+
+        client.setName(name);
+        Logger::clientInitPrint(client);
+    }
+
+    while (choice != 'q')
+    {
+        Logger::promptPrint(client);
+        std::cin >> choice;
+
+        switch (choice)
+        {
+        case 'q': break;
+        case '1': Logger::instrumentsTablePrint(market.getInstruments());
+            break;
+        case '2': Logger::contractsTablePrint(client.getPortfolio());
+            break;
+        case '3': client.buyInstrumentPrompt(market);
+            break;
+        case '4': client.sellInstrumentPrompt();
+            break;
+        case 's':
+            {
+                World::nextDay();
+                World::updateEconomy();
+                market.simulateChange();
+
+                client.addCash(client.getPortfolio().processDailyCashflow());
+            }
+            break;
+        default: continue;
+        }
+
+        if (choice != 's' && choice != 'q')
+        {
+            std::cout << "Enter pro pokracovani..." << std::endl;
+            std::cin.ignore();
+            std::cin.get();
+        }
+    }
+
+    if (!SaveManager::saveGame(market, client))
     {
         std::cout << "Hru nebylo mozne ulozit." << std::endl;
-    } else
+    }
+    else
     {
         std::cout << "Hra ulozena." << std::endl;
     }
-
-    delete client;
-    delete market;
 
     return 0;
 }

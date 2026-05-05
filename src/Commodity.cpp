@@ -1,6 +1,9 @@
 #include "Commodity.hpp"
+#include "Logger.hpp"
 #include "World.hpp"
 #include "Random.hpp"
+
+#include <iomanip>
 
 Commodity::Commodity(const std::string& name, const std::string& ticker, const double pricePerUnit, const Type type, const double storageFee)
     : Instrument(name, ticker, pricePerUnit), type(type), storageFee(storageFee) {}
@@ -41,14 +44,20 @@ void Commodity::simulateChangeInPrice()
     setPricePerUnit(newPrice);
 }
 
+double Commodity::processDailyCashflow(const double vol) const
+{
+    Logger::chargeStorageFee(getName(), chargeStorageFee(vol));
+    return -chargeStorageFee(vol);
+}
+
 void Commodity::printDetails(std::ostream& os) const
 {
     os <<
         "Type:\t\t" << getType() << "\t" << std::endl <<
-        "Fee:\t\t" << getStorageFee() << " USD" << std::endl;
+        "Fee:\t\t" << std::fixed << std::setprecision(2) << getStorageFee() << " USD" << std::endl;
 }
 
-double Commodity::chargeStorageFee(const double vol)
+double Commodity::chargeStorageFee(const double vol) const
 {
     return getStorageFee() * vol;
 }

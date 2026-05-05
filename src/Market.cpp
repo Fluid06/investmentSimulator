@@ -15,9 +15,9 @@ Market::~Market()
 
 const std::vector<Instrument*>& Market::getInstruments() const { return instruments; }
 
-int Market::getInstrumentIdx(const std::string& ticker) const
+size_t Market::getInstrumentIdx(const std::string& ticker) const
 {
-    for (auto i = 0; i < instruments.size(); i++)
+    for (size_t i = 0; i < instruments.size(); i++)
     {
         if (instruments.at(i)->getTicker() == ticker) return i;
     }
@@ -28,4 +28,12 @@ int Market::getInstrumentIdx(const std::string& ticker) const
 void Market::addInstrument(Instrument* newInstrument)
 {
     instruments.push_back(newInstrument);
+}
+
+void Market::simulateChange() const
+{
+    for (const auto instrument : instruments)
+    {
+        instrument->simulateChangeInPrice();
+    }
 }

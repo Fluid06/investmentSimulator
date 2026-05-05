@@ -15,6 +15,7 @@ public:
     double getProfitInPercentage() const;
     double getProfitInCash() const;
 
+    void setVolume(double volume);
 private:
     const Instrument* const instrument;
     double openingPrice;

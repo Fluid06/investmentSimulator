@@ -1,5 +1,6 @@
 #pragma once
 #include "Portfolio.hpp"
+#include "Market.hpp"
 #include <string>
 
 class Client
@@ -17,6 +18,9 @@ public:
 
     void addCash(double amount);
     void addContract(Contract* contract);
+
+    void buyInstrumentPrompt(const Market& market);
+    void sellInstrumentPrompt();
 
 private:
     Portfolio portfolio;

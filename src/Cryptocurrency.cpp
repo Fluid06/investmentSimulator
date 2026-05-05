@@ -16,15 +16,21 @@ std::string Cryptocurrency::getSaveFormat() const
 
 void Cryptocurrency::simulateChangeInPrice()
 {
-    const int ppu = static_cast<int>(getPricePerUnit());
-    const int maxPosChange = abs(ppu) * 1000;
-    const int maxNegChange = -abs(ppu) * 1000;
+    const double ppu = getPricePerUnit();
+    const double maxChange = ppu * volatility;
 
-    std::uniform_int_distribution<int> priceChangeRand(maxNegChange, maxPosChange);
+    std::uniform_real_distribution<double> priceChangeRand(-maxChange, maxChange);
 
-    const double newPrice = ppu + (priceChangeRand(gen) / 1000.0 * volatility);
+    double newPrice = ppu + (priceChangeRand(gen));
+
+    if (newPrice < 0.01) newPrice = 0.01;
 
     setPricePerUnit(newPrice);
+}
+
+double Cryptocurrency::processDailyCashflow(const double vol) const
+{
+    return 0 * vol;
 }
 
 void Cryptocurrency::printDetails(std::ostream& os) const {}

@@ -16,6 +16,7 @@ public:
     virtual std::string getSaveFormat() const = 0;
 
     virtual void simulateChangeInPrice() = 0;
+    virtual double processDailyCashflow(double vol) const = 0;
     virtual void printDetails(std::ostream& os) const = 0;
 
 protected:

@@ -9,8 +9,10 @@ public:
 
     const std::vector<Instrument*>& getInstruments() const;
 
-    int getInstrumentIdx(const std::string& ticker) const;
+    size_t getInstrumentIdx(const std::string& ticker) const;
     void addInstrument(Instrument* newInstrument);
+
+    void simulateChange() const;
 
 private:
     std::vector<Instrument*> instruments;

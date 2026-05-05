@@ -33,3 +33,8 @@ double Contract::getProfitInCash() const
 {
     return (instrument->getPricePerUnit() - openingPrice) * volume;
 }
+
+void Contract::setVolume(const double volume)
+{
+    this->volume = volume;
+}

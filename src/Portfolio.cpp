@@ -26,26 +26,12 @@ double Portfolio::getTotalProfitInCash() const
     return totalProfit;
 }
 
-double Portfolio::getTotalProfitInPercentage() const
-{
-    double totalValue = 0;
-    double totalOpeningValue = 0;
-
-    for ( const Contract* contract : contracts )
-    {
-        totalValue += contract->getInstrument()->getPricePerUnit();
-        totalOpeningValue += contract->getOpeningPrice();
-    }
-
-    return -100.0 / totalOpeningValue / (totalOpeningValue - totalValue);
-}
-
 void Portfolio::openContract(Contract* contract)
 {
     contracts.push_back(contract);
 }
 
-double Portfolio::closeContract(const int idx)
+double Portfolio::closeContract(size_t idx)
 {
     const Contract* contract = contracts.at(idx);
     const double profit = contract->getProfitInCash();
@@ -53,5 +39,19 @@ double Portfolio::closeContract(const int idx)
     contracts.erase(contracts.begin() + idx);
 
     delete contract;
-    return profit;
+    return profit > 0 ? profit : 0;
+}
+
+double Portfolio::processDailyCashflow() const
+{
+    double totalProfit = 0.0;
+
+    for (const Contract* contract : contracts)
+    {
+        totalProfit += contract->getInstrument()->processDailyCashflow(contract->getVolume());
+    }
+
+    std::cout << std::endl;
+
+    return totalProfit;
 }

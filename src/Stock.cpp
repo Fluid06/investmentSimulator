@@ -1,4 +1,9 @@
 #include "Stock.hpp"
+
+#include <iostream>
+#include <iomanip>
+
+#include "Logger.hpp"
 #include "World.hpp"
 #include "Random.hpp"
 
@@ -14,29 +19,36 @@ std::string Stock::getTypeName(const bool full) const
 
 std::string Stock::getSaveFormat() const
 {
-    return std::to_string(dividendYield) + std::to_string(volatility);
+    return std::to_string(dividendYield) + "," + std::to_string(volatility);
 }
 
 void Stock::simulateChangeInPrice()
 {
     const int ppu = static_cast<int>(getPricePerUnit());
-    const int maxPosChange = abs(ppu) * 1000;
-    const int maxNegChange = -abs(ppu) * 1000;
+    const int maxChange = ppu * volatility;
 
-    std::uniform_int_distribution<int> priceChangeRand(maxNegChange, maxPosChange);
+    std::uniform_real_distribution<double> priceChangeRand(-maxChange, maxChange);
 
-    const double newPrice = ppu + (priceChangeRand(gen) / 1000.0 * volatility) + ppu * World::getGlobalInflation();
+    const double newPrice = ppu + (priceChangeRand(gen)) + ppu * World::getGlobalInflation();
 
     setPricePerUnit(newPrice);
+}
+
+double Stock::processDailyCashflow(const double vol) const
+{
+    if (dividendYield == 0.0) return 0;
+
+    Logger::payDividend(getName(), payDividend(vol));
+    return payDividend(vol);
 }
 
 void Stock::printDetails(std::ostream& os) const
 {
     os <<
-        "Dividend:\t" << static_cast<double>(getDividendYield() * 100.0) << " %\t" << std::endl;
+        "Dividend:\t" << std::fixed << std::setprecision(2) << (getDividendYield() * 100.0) << " %\t" << std::endl;
 }
 
-double Stock::payDividend(const double vol)
+double Stock::payDividend(const double vol) const
 {
-    return dividendYield * vol;
+    return dividendYield * getPricePerUnit() * vol;
 }

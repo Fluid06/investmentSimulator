@@ -11,8 +11,9 @@ public:
     std::string getSaveFormat() const override;
 
     void simulateChangeInPrice() override;
+    double processDailyCashflow(double vol) const override;
     void printDetails(std::ostream& os) const override;
-    double payDividend(double vol);
+    double payDividend(double vol) const;
 
 private:
     double dividendYield;

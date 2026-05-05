@@ -9,10 +9,10 @@ public:
 
     const std::vector<Contract*>& getContracts() const;
     double getTotalProfitInCash() const;
-    double getTotalProfitInPercentage() const;
 
     void openContract(Contract* contract);
-    double closeContract(int idx);
+    double closeContract(size_t idx);
+    double processDailyCashflow() const;
 
 private:
     std::vector<Contract*> contracts;

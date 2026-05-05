@@ -1,8 +1,10 @@
 #include "Bond.hpp"
+#include "World.hpp"
+#include "Logger.hpp"
 
+#include <iomanip>
 #include <iostream>
 
-#include "World.hpp"
 
 Bond::Bond(const std::string& name, const std::string& ticker, const double pricePerUnit, const double interestRate, const int expirationDay)
     : Instrument(name, ticker, pricePerUnit), nominalValue(pricePerUnit), interestRate(interestRate), expirationDay(expirationDay) {}
@@ -43,12 +45,18 @@ void Bond::simulateChangeInPrice()
     setPricePerUnit(newPrice);
 }
 
+double Bond::processDailyCashflow(const double vol) const
+{
+    Logger::payInterest(getName(), payInterest(vol));
+    return payInterest(vol);
+}
+
 void Bond::printDetails(std::ostream& os) const
 {
     os <<
-        "Nom. val.:\t" << getNominalValue() << " USD\t" << std::endl <<
-        "Interest:\t" << getInterestRate() * 100.0 << " %\t" << std::endl <<
-        "Exp. day:\t" << getExpirationDay() - World::getCurrentDay() << std::endl;
+        "Nom. val.:\t" << std::fixed << std::setprecision(2) << getNominalValue() << " USD\t" << std::endl <<
+        "Interest:\t" << std::fixed << std::setprecision(2) << getInterestRate() * 100.0 << " %\t" << std::endl <<
+        "Exp. day:\t" << std::setprecision(0) << (getExpirationDay() - World::getCurrentDay()) << std::endl;
 }
 
 double Bond::payInterest(const double vol) const

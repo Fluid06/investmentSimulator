@@ -56,9 +56,9 @@ bool SaveManager::saveGame(const Market& market, const Client& client)
     return true;
 }
 
-bool SaveManager::loadGame(Market& market, Client& client)
+bool SaveManager::loadSave(Market& market, Client& client, const bool init)
 {
-    std::ifstream file(PATH);
+    std::ifstream file(init ? INIT_PATH : SAVE_PATH);
 
     if (!file.is_open())
     {
@@ -176,7 +176,7 @@ bool SaveManager::loadGame(Market& market, Client& client)
             client.setName(name);
             client.setBalance(balance);
 
-            Logger::clientInitPrint(client);
+            if (!init) Logger::clientInitPrint(client);
         } else if (line == "[CONTRACT]")
         {
             std::getline(file, line);
@@ -211,4 +211,3 @@ bool SaveManager::loadGame(Market& market, Client& client)
 
     return true;
 }
-
