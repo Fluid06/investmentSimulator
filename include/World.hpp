@@ -1,6 +1,6 @@
 #pragma once
 
-#define MIN_INF_CHANGE 0                // 0 %
+#define MIN_INF_CHANGE (-500)           // -5.00 %
 #define MAX_INF_CHANGE 300              // 3.00 %
 #define MIN_INF_CHANGE_CRISIS 300       // 3.00 %
 #define MAX_INF_CHANGE_CRISIS 1000      // 10.00 %
