@@ -12,7 +12,7 @@ public:
 
     void openContract(Contract* contract);
     double closeContract(size_t idx);
-    double processDailyCashflow() const;
+    double dailyAction() const;
 
 private:
     std::vector<Contract*> contracts;

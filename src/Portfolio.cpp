@@ -41,7 +41,7 @@ double Portfolio::closeContract(const size_t idx)
     return value > 0 ? value : 0;
 }
 
-double Portfolio::processDailyCashflow() const
+double Portfolio::dailyAction() const
 {
     double totalProfit = 0.0;
 

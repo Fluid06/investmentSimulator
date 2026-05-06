@@ -69,7 +69,7 @@ int main()
                 World::updateEconomy();
                 market.simulateChange();
 
-                client.addCash(client.getPortfolio().processDailyCashflow());
+                client.addCash(client.getPortfolio().dailyAction());
             }
             break;
         default: continue;
