@@ -8,7 +8,7 @@ public:
     ~Portfolio();
 
     const std::vector<Contract*>& getContracts() const;
-    double getTotalProfitInCash() const;
+    double getTotalProfit() const;
 
     void openContract(Contract* contract);
     double closeContract(size_t idx);

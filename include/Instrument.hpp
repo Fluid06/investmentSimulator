@@ -26,5 +26,4 @@ private:
     std::string name;
     std::string ticker;
     double pricePerUnit = 0;
-
 };

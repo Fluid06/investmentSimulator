@@ -13,7 +13,7 @@ Portfolio::~Portfolio()
 
 const std::vector<Contract*>& Portfolio::getContracts() const { return contracts; }
 
-double Portfolio::getTotalProfitInCash() const
+double Portfolio::getTotalProfit() const
 {
     double totalProfit = 0;
 

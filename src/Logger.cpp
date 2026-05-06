@@ -105,7 +105,7 @@ void Logger::contractsTablePrint(const Portfolio& portfolio)
         std::cout << std::endl;
     }
 
-    std::cout << "Total profit: " << std::fixed << std::setprecision(3) << portfolio.getTotalProfitInCash() << " USD" << std::endl << std::endl;
+    std::cout << "Total profit: " << std::fixed << std::setprecision(3) << portfolio.getTotalProfit() << " USD" << std::endl << std::endl;
 }
 
 void Logger::openContract(const double totalPrice)
